@@ -17,4 +17,4 @@
   $error = $e->getMessage();
 
   echo "Erro de conexão: " . $error;
-  }
+  } 
