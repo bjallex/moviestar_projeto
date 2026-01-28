@@ -12,7 +12,7 @@
 
   $userData = $userDao->verifyToken(true);
 
-  $userMovies = $movieDao->getMoviesByUserId($userData->id[]);
+  $userMovies = $movieDao->getMoviesByUserId($userData->id);
 
 ?>
   <div id="main-container" class="container-fluid">
