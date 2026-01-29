@@ -114,12 +114,14 @@ class UserDAO implements UserDAOInterface {
 
     public function destroyToken() {
         // Redirecionar e apresentar a mensagem de sucesso
-        return true;
+        $_SESSION["message"] = "Cadastro realizado";
+        header("Location :" . $this->$url. "");
     }
 
     public function changePassword(User $user) {
         // Redirecionar e apresentar a mensagem de sucesso
-        return true;
+        $_SESSION["password"] = "Senha Alterada";
+        header("Location : " . $this->$url . "");
     }
 
 }
