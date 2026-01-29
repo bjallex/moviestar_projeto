@@ -42,7 +42,7 @@ class UserDAO implements UserDAOInterface {
         $stmt->bindParam(":name", $user->email);
         $stmt->bindParam(":name", $user->token);
 
-        $stmt->execute();
+        
         
         if($authUser){
             $this->setTokenToSession($user->token);
