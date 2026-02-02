@@ -95,8 +95,11 @@ class UserDAO implements UserDAOInterface {
     }
 
     public function findById($id) {
-        $stmt->conn->prepare("SELECT * FROM users WHERE id = :id");
-        $stmt->bindParam(":id", $user->id);
+
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = :id");
+
+        $stmt->bindParam(":id",$id);
+        $stmt->execute();
 
         if($stmt->rowCount() > 0){
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
