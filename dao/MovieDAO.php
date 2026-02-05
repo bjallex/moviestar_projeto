@@ -107,7 +107,7 @@ class MovieDAO {
             return $movie;
     }
 
-    public function create(Movie $movies) {
+    public function create(Movie $movie) {
         // Adiciona um novo filme
          $stmt = $this->conn->prepare("
             INSERT INTO movies (title, description, image, trailer, category, length, users_id)
