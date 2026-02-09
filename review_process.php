@@ -30,23 +30,49 @@ if($type === "create") {
       $rating = filter_input(INPUT_POST, "rating");
       $review = filter_input(INPUT_POST, "review");
       $movies_id = filter_input(INPUT_POST, "movies_id");
-
+    
     // TODO: Criar condicional para validar se todos os campos obrigatórios foram preenchidos
     // Se algum campo estiver vazio, mostrar uma mensagem de erro
-
+   if(!empty($rating) && !empty($review) && !empty($movies_id)) {
     // TODO: Criar condicional para verificar se o filme existe no sistema
-    // $movieData = $movieDao->findById($movies_id);
+    $movieData = $movieDao->findById($movies_id);
     // Se não existir, mostrar mensagem de erro
-
+   if($movieData) {
     // TODO: Criar objeto Review (ou array) e preencher com os dados recebidos
+ if(!$reviewDao->hasAlreadyReviewed($movies_id, $userData->id)) {
+
+                $newReview = new Review();
+                $newReview->rating = $rating;
+                $newReview->review = $review;
+                $newReview->users_id = $userData->id;
+                $newReview->movies_id = $movies_id;
 
     // TODO: Salvar a review no sistema (simulação ou print_r)
+ $reviewDao->create($newReview);
+
+                $message->setMessage("Avaliação adicionada com sucesso!", "success", "back");
 
     // TODO: Mensagem de sucesso (simulada)
-    
+     } else {
+
+                $message->setMessage("Você já avaliou este filme!", "error", "back");
+
+            }
+            } else {
+
+            $message->setMessage("Filme não encontrado!", "error", "index.php");
+
+        }
+         } else {
+
+        $message->setMessage("Preencha todos os campos!", "error", "back");
+
+    }
 } else {
 
     // TODO: Criar condicional para casos de type inválido
     // Mostrar mensagem de erro
+     $message->setMessage("Tipo de formulário inválido!", "error", "index.php");
+
 
 }

@@ -98,11 +98,43 @@ class UserDAO {
     }
 
     public function authenticateUser($email, $password) {
-        return false;
+         $user = $this->findByEmail($email);
+
+    if($user) {
+
+        // compara senha digitada com hash do banco
+        if(password_verify($password, $user->password)) {
+
+            // login OK → salva token na sessão
+            $this->setTokenToSession($user->token);
+
+            return true;
+        }
+    }
+
+    // erro de login
+    $this->message->setMessage(
+        "Email ou senha incorretos!",
+        "error",
+        "login.php"
+    );
+
+    return false;
+
     }
 
     public function findByEmail($email) {
-        return false;
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->bindParam(":email", $email);
+        $stmt->execute();
+
+        if($stmt->rowCount() > 0) {
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $this->buildUser($data);
+        }
+
+    return false;
+    
     }
 
     public function findById($id) {
@@ -133,13 +165,15 @@ class UserDAO {
     public function destroyToken() {
         // Redirecionar e apresentar a mensagem de sucesso
         $_SESSION["token"] = "token excluido";
-        header("Location :" . $this->$url. "index.php");
+        header("Location :" . $this->url. "index.php");
+        exit;
     }
 
     public function changePassword(User $user) {
         // Redirecionar e apresentar a mensagem de sucesso
         $_SESSION["password"] = "Senha Alterada";
-        header("Location : " . $this->$url . "");
+        header("Location : " . $this->url . "");
+        exit;
     }
 
 }

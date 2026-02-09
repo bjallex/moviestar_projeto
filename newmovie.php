@@ -14,6 +14,7 @@ require_once("dao/MovieDAO.php");
 $message = new Message($BASE_URL);
 $userDao = new UserDAO($conn, $BASE_URL, $message);
 
+$userData = $userDao->verifyToken(true); 
 
 
 $movieDao = new MovieDAO($conn);
